@@ -29,8 +29,9 @@
 					<!-- END BLOCK : featuredblock -->
 			</div>
 		</div>
-		<div class="sbar-box"><h4>Affiliates</h4>{affiliate_content}</div>
-
+		<div class="sbar-box"><h4>Affiliates</h4>
+			<div align="center"><a href="https://shadowplayers.jcink.net/"><img src="buttons/Shadowplay.png"></a></div>
+		</div>
 		<!-- <div class="sbar-box"><h4>{shoutbox_title}</h4>{shoutbox_content}</div>
 		<div class="sbar-box"><h4>{poll_title}</h4>{poll_content}</div> -->
 		<div align="center">{xml}</div>
