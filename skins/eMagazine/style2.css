@@ -1,0 +1,418 @@
+/*
+		Skin Name: eMagazine (responsive)
+		Skin Download: http://artphilia.de
+		Description: This is a grid based responsive layout.
+		Author: Nadia Volkrodt
+		Author E-Mail: nadia@artphilia.de
+*/
+
+
+/* import fonts */
+@import url(<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">:400,300,300italic,400italic,600,600italic,700,700italic|Fredericka+the+Great:400);
+@import url(https://use.fontawesome.com/releases/v5.3.1/css/all.css);
+
+/* import basic settings, IE-fixes and grids */
+@import url(base.css);
+
+/*---------------------------------------------------------------------
+   Basic styles
+------------------------------------------------------------------------*/
+html, body {
+	height: 100%;
+	}
+
+body {
+	background-color: #18191D;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+	font-size: 11pt;
+	letter-spacing: .25px;
+	color: #e1dede;
+	}
+
+table {
+	text-align: justify;
+	}
+tr:nth-child(odd) {
+	background-color: transparent;
+	padding: 6px;
+	}
+tr:nth-child(even), td:nth-child(even) {
+	background-color: transparent;
+	padding: 6px;
+	}
+
+ul li {
+	list-style-type: none;
+	}
+a, a:active, a:visited {
+	font-weight: normal;
+	text-decoration: none;
+	text-transform: none;
+	color: #F8BE53;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+	}
+a:hover {
+	color: #FF8F02;
+	text-decoration: none;
+	background-color: transparent;
+	}
+
+h1 {
+	color: #ffcd50;
+	background-color: #18191D;
+	font-family: 'Roboto', sans-serif;
+	font-size: 21pt;
+	text-align: center;
+	text-transform: uppercase;
+	font-style: normal;
+	font-weight: 550;
+	padding: 10px;
+	}
+h2, #pagetitle, .sectionheader {
+	background-color: transparent;
+	font-family: 'Roboto', sans-serif;
+	font-size: 22pt;
+	font-weight: 500;
+	color: #FFCD50;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 10px;
+	}
+
+h3 {
+	background-color: transparent;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14pt;
+	text-align: center;
+	margin: 0;
+	padding: 7px 0;
+	color: #ffcd50;
+	font-weight: 500;
+	text-transform: uppercase;
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+	}
+h4 {
+	font-size: 16pt;
+	font-family: 'Roboto', sans-serif;
+	font-weight: normal;
+	padding: 10px 0;
+	color: #e1dede;
+}
+
+/*---------------------------------------------------------------------
+   General page alignment and width
+------------------------------------------------------------------------*/
+
+#header {
+	background: #18191D;
+	}
+
+.container {
+	background-color: #18191D;
+	padding: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+.content {
+	text-align: justify;
+	font-style: normal;
+	}
+
+.sidebar {
+	font-style: normal;
+	text-align: justify;
+	background-color: #252A2E;
+	padding: 12px;
+	}
+
+.footer {
+	text-align: center;
+	margin-top: 10px;
+	padding: 10px;
+	}
+
+/*---------------------------------------------------------------------
+   General page alignment and width
+------------------------------------------------------------------------*/
+i { font-family: 'Roboto', sans-serif; }
+
+.label, b, label {
+	color: #e1dede;
+	font-weight: 550;
+}
+
+hr {
+	height: 2px;
+	background: -webkit-gradient(linear, 0 0, 100% 0, from(rgba(0,0,0,0)), color-stop(0.5, #df4d3c), to(rgba(0,0,0,0)));
+	background: -webkit-linear-gradient(left, rgba(0,0,0,0), #df4d3c, rgba(0,0,0,0));
+	background: -moz-linear-gradient(left, rgba(0,0,0,0), #df4d3c, rgba(0,0,0,0));
+	background: -o-linear-gradient(left, rgba(0,0,0,0), #df4d3c, rgba(0,0,0,0));
+	background: linear-gradient(left, rgba(0,0,0,0), #df4d3c rgba(0,0,0,0));
+	border: 0;
+}
+
+input, textarea, select {
+	background-color: #18191D;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	color: #ffcd50;
+	margin: 2px;
+	padding: 2px 6px;
+	vertical-align: middle;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.button, .button a {
+	margin: 0 auto;
+	text-align: center;
+	text-transform: uppercase;
+	margin: 2px;
+	padding: 2px 6px;
+	cursor: pointer;
+	background-color: transparent;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	color: #e1dede;
+}
+
+blockquote {
+	margin: 10px auto;
+	padding: 25px;
+	width: 75%;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border-right: 3px solid #df4d3c;
+	border-left: 3px solid #df4d3c;
+}
+
+/*---------------------------------------------------------------------
+		NAVIGATION LINKS
+------------------------------------------------------------------------*/
+	#main-navigation {
+		width: 100%;
+		float: center;
+		text-align: center;
+		padding: 15px 0px;
+		}
+
+	#main-navigation ul {
+		text-align: center;
+		padding: 10px 2px;
+		}
+
+	#main-navigation li {
+		background-color: #212224;
+		display: inline;
+		float: center;
+		padding: 4px 8px;
+		margin: 0 3px;
+		}
+
+	#main-navigation li:hover {
+		padding: 4px 8px;
+		background-color: #df4d3c;
+		}
+
+	#main-navigation a {
+		font-family: 'Roboto', sans-serif;
+		font-size: 10pt;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: #f0efef;
+		-webkit-transition: 1s;
+		-moz-transition: 1s;
+		transition: 1s;
+		}
+
+	#main-navigation a:hover {
+		color: #f0efef;
+		}
+
+/*---------------------------------------------------------------------
+  Style of story list
+------------------------------------------------------------------------*/
+.even, .odd, .comment {
+	margin-top: 0;
+	margin-right: auto;
+	margin-bottom: 0;
+	margin-left: auto;
+	padding: 5px;
+}
+.even:hover, .odd:hover {
+	background-color: transparent;
+}
+
+/*---------------------------------------------------------------------
+   News
+------------------------------------------------------------------------*/
+#newsarchive, #sortform, .respond {
+	background-color: #212224;
+	text-align: center;
+	}
+#newsbox {
+	background-color: #212224;
+	margin: 0 auto;
+	padding: 16px;
+	}
+.newscom {
+	background-color: #212224;
+	font-weight: normal;
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+	padding: 16px;
+	margin: 0;
+	}
+.newssig {
+	background-color: #212224;
+	font-family: 'Roboto', sans-serif;
+	font-style: italic;
+	font-size: 9pt;
+	padding: 16px;
+	}
+
+/*---------------------------------------------------------------------
+   Categories
+------------------------------------------------------------------------*/
+.category {
+	text-align: left;
+	width: 75%;
+	margin: 0 auto;
+	}
+.catimg {
+	float: left;
+	padding: 3px 6px 3px 0;
+	}
+.cat_description {
+	padding: 5px;
+	text-align: left;
+	}
+
+/*---------------------------------------------------------------------
+  Page links
+------------------------------------------------------------------------*/
+#pagelinks {
+	width: 100%;
+	text-align: center;
+	padding: 1em;
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	}
+#pagelinks a {
+	font-weight: normal;
+	text-decoration: none;
+	text-transform: none;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+	}
+#pagelinks a:hover {
+	text-decoration: none;
+	background-color: transparent;
+	}
+a#currentpage {
+	color: #8d817b;
+	background-color: transparent;
+	}
+/*---------------------------------------------------------------------
+   Misc Styles, used in multiple places throughout the page
+------------------------------------------------------------------------*/
+#alphabet {
+	text-align: center;
+	padding: 5px;
+font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	}
+#jumpmenu {
+	text-align: right;
+	}
+#story {
+	padding: 50px 10px;
+	text-align: justify;
+	}
+#login {
+	margin: 0;
+	}
+#columncontainer {
+	width: 90%;
+	text-align: justify;
+}
+.column, #columncontainer a {
+font-family: 'Roboto', sans-serif;
+	font-size: 18px;
+	}
+.copyright {
+	padding: 5px 0;
+	font-family: 'Roboto', sans-serif;
+	text-transform: uppercase;
+	font-size: 9pt;
+}
+
+/*---------------------------------------------------------------------
+  MENU
+------------------------------------------------------------------------*/
+#menu {
+	width: 100%;
+	margin: 4px 0;
+	}
+#menu ul {
+	text-align: center;
+	padding: 4px 2px;
+	background-color: #212224;
+	}
+#menu li {
+	display: inline-block;
+	padding: 8px 16px;
+	margin: 0 3px;
+	}
+#menu li:hover {
+	padding: 8px 16px;
+	background: #df4d3c;
+	}
+#menu a {
+	font-family: 'Roboto', sans-serif;
+	font-size: 11pt;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #f0efef;
+	-webkit-transition: 0s;
+	-moz-transition: 0s;
+	transition: 0s;
+	}
+#menu a:hover {
+	color: #f0efef;
+}
+
+/*---------------------------------------------------------------------
+  SITE NAME / SLOGAN
+------------------------------------------------------------------------*/
+#sitename {
+	color: #f29f3d;
+	font-family: 'Roboto', sans-serif;
+	font-size: 36pt;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	padding: 12px 0px 7px 0px;
+}
+#siteslogan {
+	color: #ffcd50;
+	font-family: 'Roboto', sans-serif;
+	font-size: 15pt;
+	font-weight: bold;
+	text-align: center;
+	text-transform: uppercase;
+	padding-bottom: 6px;
+}
