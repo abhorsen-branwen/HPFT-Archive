@@ -622,7 +622,7 @@ li > a:only-child:after { content: ''; }
 	 RESPONSIVE
 	------------------------------------------------------------------------*/
 
-	@media all and (max-width : 800px) {
+	@media handheld, only screen and (max-width : 800px) {
 
 		body {
 			font-size: 14pt;
@@ -635,8 +635,7 @@ li > a:only-child:after { content: ''; }
 			}
 
 		h5 {
-
-			font-size: 13pt;
+			font-size: 12pt;
 		}
 
 		h6 {
