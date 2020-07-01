@@ -80,7 +80,6 @@ if($confirm == "yes") {
 		dbquery("alter table ".TABLEPREFIX."fanfiction_panels drop index panel_hidden;");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_panels drop index panel_type;");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_panels add index panel_type (panel_type,panel_name);");
-		dbquery("create index avgrating on ".TABLEPREFIX."fanfiction_reviews(type,item,rating);");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_reviews drop index sid;");
 		dbquery("create index bychapter on ".TABLEPREFIX."fanfiction_reviews (chapid,rating);");
 		dbquery("alter table ".TABLEPREFIX."fanfiction_reviews add index byuid (uid,item,type);");
@@ -92,7 +91,7 @@ if($confirm == "yes") {
 		$alltables = dbquery("SHOW TABLES");
 	}
 	// Still a little behind.
-	if($oldVersion[1] < 2) { 
+	if($oldVersion[1] < 2) {
 		dbquery("
 CREATE TABLE `".TABLEPREFIX."fanfiction_stats` (
   `sitekey` varchar(50) NOT NULL default '0',
@@ -105,7 +104,7 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_stats` (
   `members` int(11) NOT NULL default '0',
   `reviewers` int(11) NOT NULL default '0',
   `newestmember` int(11) NOT NULL default '0'
-) TYPE=MyISAM");
+) ENGINE=MyISAM");
 		dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_stats(`sitekey`) VALUES('SITEKEY')");
 		dbquery("ALTER TABLE `".TABLEPREFIX."fanfiction_inseries` DROP `updated`");
 		dbquery("ALTER TABLE `".TABLEPREFIX."fanfiction_news` ADD `comments` INT NOT NULL DEFAULT '0'");
@@ -125,10 +124,10 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_stats` (
 		while($n = dbassoc($newslist)) {
 			dbquery("UPDATE ".TABLEPREFIX."fanfiction_news SET comments = '".$n['count']."' WHERE nid = ".$n['nid']);
 		}
-	
+
 		$storiesquery =dbquery("SELECT COUNT(sid) as totals, COUNT(DISTINCT uid) as totala, SUM(wordcount) as totalwords FROM ".TABLEPREFIX."fanfiction_stories WHERE validated > 0 ");
 		list($stories, $authors, $words) = dbrow($storiesquery);
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET stories = '$stories', authors = '$authors', wordcount = '$words' WHERE sitekey = 'SITEKEY'"); 
+		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET stories = '$stories', authors = '$authors', wordcount = '$words' WHERE sitekey = 'SITEKEY'");
 
 		$chapterquery = dbquery("SELECT COUNT(chapid) as chapters FROM ".TABLEPREFIX."fanfiction_chapters where validated > 0");
 		list($chapters) = dbrow($chapterquery);
@@ -141,7 +140,7 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_stats` (
 		list($reviews) = dbrow($reviewquery);
 		$reviewquery = dbquery("SELECT COUNT(DISTINCT uid) FROM ".TABLEPREFIX."fanfiction_reviews WHERE review != 'No Review' AND uid > 0");
 		list($reviewers) = dbrow($reviewquery);
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET series = '$totalseries', chapters = '$chapters', members = '$members', newestmember = '$newest', reviews = '$reviews', reviewers = '$reviewers' WHERE sitekey = 'SITEKEY'"); 
+		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET series = '$totalseries', chapters = '$chapters', members = '$members', newestmember = '$newest', reviews = '$reviews', reviewers = '$reviewers' WHERE sitekey = 'SITEKEY'");
 		$news = dbquery("SELECT count(nid) as count, nid FROM ".TABLEPREFIX."fanfiction_comments GROUP BY nid");
 		while($n = dbassoc($news)) {
 			dbquery("UPDATE ".TABLEPREFIX."fanfiction_news SET comments = '".$n['count']."' WHERE nid = '".$n['nid']."' LIMIT 1");
@@ -164,41 +163,15 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
 	while($folder = readdir($dir)) {
 		if($folder == "." || $folder == ".." || !is_dir("modules/$folder")) continue;
 		if(file_exists("modules/$folder/version.php")) {
-			$moduleVersion = ""; $moduleName = ""; 
+			$moduleVersion = ""; $moduleName = "";
 			include("modules/$folder/version.php");
 			if(empty($moduleName)) $moduleName = $folder;
-			// The next few lines try to determine if the module is installed.  
+			// The next few lines try to determine if the module is installed.
 			if($folder == "challenges" && !isset($anonchallenges)) continue;
 			if($folder == "recommendations" && !isset($anonrecs)) continue;
-			
+
 			dbquery("INSERT INTO ".TABLEPREFIX."fanfiction_modules(`name`, `version`) VALUES('$moduleName', '1.0')");
 		}
-	}
-	if($ratings == "1") dbquery("UPDATE ".TABLEPREFIX."fanfiction_reviews SET rating = '-1' WHERE rating = '0'");
-	dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET rating = '0', reviews = '0'"); // Set them all to 0 before we re-insert.
-	$stories = dbquery("SELECT COUNT(rating) as average, item FROM ".TABLEPREFIX."fanfiction_reviews WHERE type = 'ST' AND rating != '-1' GROUP BY item");
-	while($s = dbassoc($stories)) {
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET rating = '".round($s['average'])."' WHERE sid = '".$s['item']."'");
-	}
-	$stories = dbquery("SELECT COUNT(reviewid) as count, item FROM ".TABLEPREFIX."fanfiction_reviews WHERE type = 'ST' AND review != 'No Review' GROUP BY item");
-	while($s = dbassoc($stories)) {
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stories SET reviews = '".$s['count']."' WHERE sid = '".$s['item']."'");
-	}
-	dbquery("UPDATE ".TABLEPREFIX."fanfiction_chapters SET rating = '0', reviews = '0'");
-	$chapters = dbquery("SELECT COUNT(rating) as average, chapid FROM ".TABLEPREFIX."fanfiction_reviews WHERE type = 'ST' AND rating != '-1' GROUP BY chapid");
-	while($c = dbassoc($chapters)) {
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_chapters SET rating = '".round($c['average'])."' WHERE chapid = '".$c['chapid']."'");
-	}
-	$chapters = dbquery("SELECT COUNT(reviewid) as count, chapid FROM ".TABLEPREFIX."fanfiction_reviews WHERE type = 'ST' AND review != 'No Review' GROUP BY chapid");
-	while($c = dbassoc($chapters)) {
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_chapters SET reviews = '".$c['count']."' WHERE chapid = '".$c['chapid']."'");
-	}
-	dbquery("UPDATE ".TABLEPREFIX."fanfiction_series SET rating = '0', reviews = '0'");
-	$series = dbquery("SELECT seriesid FROM ".TABLEPREFIX."fanfiction_series");
-	while($s = dbassoc($series)) {
-		$thisseries = $s['seriesid'];
-		include("includes/seriesreviews.php");
-	}
 	} // End 3.3 updates
 	// Version 3.3.1 updates
 	if($oldVersion[1] == 3 && empty($oldVersion[2])) {
@@ -210,7 +183,7 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
   `sid` int(11) NOT NULL default '0',
   `uid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`sid`,`uid`)
-) TYPE=MyISAM;");
+) ENGINE=MyISAM;");
 		dbquery("ALTER TABLE `".TABLEPREFIX."fanfiction_authorprefs` ADD `stories` INT NOT NULL DEFAULT '0'");
 		$alist = array( );
 		$authors = dbquery("SELECT uid, count(uid) AS count FROM ".TABLEPREFIX."fanfiction_stories WHERE validated > 0 GROUP BY uid");
@@ -234,15 +207,15 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
 	}
 	if($oldVersion[1] == 4 && !isset($oldVersion[2])) {
 		$statsupdate = dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET sitekey = '".SITEKEY."' WHERE sitekey = 'SITEKEY' LIMIT 1");
-		$coauthors = dbquery("SHOW TABLES LIKE '".TABLEPREFIX."fanfiction_coauthors'"); 
-		if(!dbnumrows($coauthors)) { 
+		$coauthors = dbquery("SHOW TABLES LIKE '".TABLEPREFIX."fanfiction_coauthors'");
+		if(!dbnumrows($coauthors)) {
 			dbquery("CREATE TABLE `".TABLEPREFIX."fanfiction_coauthors` (
 			  `sid` int(11) NOT NULL default '0',
 			  `uid` int(11) NOT NULL default '0',
 			  PRIMARY KEY  (`sid`,`uid`)
-			) TYPE=MyISAM;");
+			) ENGINE=MyISAM;");
 			dbquery("ALTER TABLE `".TABLEPREFIX."fanfiction_authorprefs` ADD `stories` INT NOT NULL DEFAULT '0'");
-		}		
+		}
 		$authors = dbquery("SELECT uid, count(uid) AS count FROM ".TABLEPREFIX."fanfiction_stories WHERE validated > 0 GROUP BY uid");
 		while($a = dbassoc($authors)) {
 			$alist[$a['uid']] = $a['count'];
@@ -257,13 +230,13 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
 		}
 	}
 	if($oldVersion[1] == 4 && $oldVersion[2] < 2) {
-		$coauthors = dbquery("SHOW TABLES LIKE '".TABLEPREFIX."fanfiction_coauthors'"); 
-		if(!dbnumrows($coauthors)) { 
+		$coauthors = dbquery("SHOW TABLES LIKE '".TABLEPREFIX."fanfiction_coauthors'");
+		if(!dbnumrows($coauthors)) {
 			dbquery("CREATE TABLE `".TABLEPREFIX."fanfiction_coauthors` (
 			  `sid` int(11) NOT NULL default '0',
 			  `uid` int(11) NOT NULL default '0',
 			  PRIMARY KEY  (`sid`,`uid`)
-			) TYPE=MyISAM;");
+			) ENGINE=MyISAM;");
 			dbquery("ALTER TABLE `".TABLEPREFIX."fanfiction_authorprefs` ADD `stories` INT NOT NULL DEFAULT '0'");
 		}
 		$storiesAdded = dbquery("SHOW COLUMNS FROM ".TABLEPREFIX."fanfiction_authorprefs LIKE 'stories'");
@@ -300,7 +273,7 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
 		}
 		// Recalculate the number of authors
 		list($authors) = dbrow(dbquery("SELECT count(uid) FROM ".TABLEPREFIX."fanfiction_authorprefs WHERE stories > 0"));
-		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET authors = '$authors' WHERE sitekey = '".SITEKEY."'"); 
+		dbquery("UPDATE ".TABLEPREFIX."fanfiction_stats SET authors = '$authors' WHERE sitekey = '".SITEKEY."'");
 	}
 	if($oldVersion[1] == 5 && $oldVersion[2] < 3) {
 		// fix the indexes for the inseries table.
@@ -314,7 +287,7 @@ CREATE TABLE `".TABLEPREFIX."fanfiction_modules` (
 		$exists = dbnumrows(dbquery("SHOW INDEX FROM ".TABLEPREFIX."fanfiction_inseries WHERE Key_name = 'PRIMARY'"));
 		if($exists) dbquery("alter table ".TABLEPREFIX."fanfiction_inseries drop primary key");
 		dbquery("alter ignore table ".TABLEPREFIX."fanfiction_inseries add primary key (sid,seriesid,subseriesid);");
-	}	
+	}
 	$update = dbquery("UPDATE ".$settingsprefix."fanfiction_settings SET version = '".$version."' WHERE sitekey = '".SITEKEY."'");
 	if($update) $output .= write_message(_ACTIONSUCCESSFUL);
 	else $output .= write_error(_ERROR);
