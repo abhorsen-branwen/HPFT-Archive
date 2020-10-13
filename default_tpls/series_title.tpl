@@ -2,8 +2,8 @@
 
 <div id="pagetitle">{pagetitle}</div>
 <div align="center">{category}</div>
-<div class="content"><div align="center"><blockquote2>{summary}</blockquote><br /><br/>
-</div>
+<div class="content"><div align="center"><blockquote2>{summary}</blockquote></div>
+<br /><br/>
 <div class="gb-50">
 	<span class label="characters"><b>Characters:</b> {characters}</span><br/>
 	<hr class="style2">
@@ -22,12 +22,9 @@
 	<hr class="style2">
 	<span class label="tropes"><b>Tropes:</b> {tropes}</span><br/>
 	<hr class="style2">
-	<span class label="type"><b>Story Type:</b> {type}</span><br/>
-</div></div>
+	<span class label="type"><b>Story Type:</b> {type}</span><br/></div>
 <div class="gb-full">
     <div align="center"><span class="label">Parent Series:</span> {parentseries}<br /></div>
-		<div align="center"><b>Published:</b> {published} &middot; <b>Updated:</b> {updated} &middot; <b>Words:</b> {wordcount} &middot; <b>Chapters:</b> {numchapters} &middot; <b>Reviews:</b> {numreviews} &middot; <b>Likes:</b> {score} &middot; <b>Reads:</b> {count}</div><br/>
-		<div align="center"><span class label="Series"><b>Series:</b> {serieslinks}</span></div>
 		<div align="center">{addtofaves} {tracker} {last_read}<br/></div>
 		<div align="center">{adminlinks}</div></div></div>
       <div class="jumpmenu">{jumpmenu}</div>
